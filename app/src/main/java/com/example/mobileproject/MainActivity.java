@@ -23,17 +23,23 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
 
-//Splash Screen
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+    new Handler().postDelayed(new Runnable() {
+        @Override
+        public void run() {
 
-                Intent homeIntent = new Intent(MainActivity.this,HomeActivity.class);
-                startActivity(homeIntent);
-                finish();
+            Intent homeIntent = new Intent(MainActivity.this,HomeActivity.class);
+            startActivity(homeIntent);
+            finish();
 
-            }
-        },3000);
+        }
+    },1000); //sleep
+
+
+
+
+
+
+
 
 
     }
