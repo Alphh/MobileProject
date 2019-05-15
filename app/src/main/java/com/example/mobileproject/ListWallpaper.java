@@ -1,6 +1,7 @@
 package com.example.mobileproject;
 
 import android.app.DownloadManager;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -102,7 +103,11 @@ public class ListWallpaper extends AppCompatActivity
                     @Override
                     public void onClick(View view,int position)
                     {
-                            //later use
+
+                        Intent intent = new Intent(ListWallpaper.this,ViewWallpaper.class);
+                        Common.select_background = model;
+                        startActivity(intent);
+
                     }
                 });
 
