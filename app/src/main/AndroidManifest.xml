@@ -3,7 +3,6 @@
     package="com.example.mobileproject">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
 
     <application
@@ -13,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/FullScreenTheme">
-        <activity android:name=".ViewWallpaper"></activity>
+        <activity android:name=".UploadWallpaper"></activity>
+        <activity android:name=".ViewWallpaper" />
         <activity android:name=".ListWallpaper" />
         <activity
             android:name=".HomeActivity"

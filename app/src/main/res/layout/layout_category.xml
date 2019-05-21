@@ -9,7 +9,8 @@
     
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
         
         <ImageView
             android:id="@+id/categoryimage"
@@ -22,7 +23,7 @@
             android:background="#494949"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
             android:text="Category Name"
