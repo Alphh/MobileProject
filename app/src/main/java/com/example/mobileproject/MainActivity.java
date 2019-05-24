@@ -2,7 +2,6 @@ package com.example.mobileproject;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.google.firebase.FirebaseApp;
@@ -15,15 +14,8 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
 
-    new Handler().postDelayed(new Runnable() {
-        @Override
-        public void run() {
-
-            Intent homeIntent = new Intent(MainActivity.this,HomeActivity.class);
-            startActivity(homeIntent);
-            finish();
-
-        }
-    },1000); //sleep
+        Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
+        startActivity(homeIntent);
+        finish();
     }
 }
