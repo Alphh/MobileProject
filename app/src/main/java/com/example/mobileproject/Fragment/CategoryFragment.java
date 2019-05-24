@@ -1,6 +1,7 @@
 package com.example.mobileproject.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,6 +27,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 
+import com.example.mobileproject.ListWallpaper;
 public class CategoryFragment extends Fragment {
 
     FirebaseDatabase database;
@@ -86,10 +88,19 @@ public class CategoryFragment extends Fragment {
 
                holder.category_name.setText(model.getName());
 
-               holder.setItemClickListener(new itemClickListener());
+               holder.setItemClickListener(new itemClickListener()
                {
+                   @Override
+                   public void onClick(View view, int position)
+                   {
+                       Common.CATEGORY_ID_SELECTED = adapter.getRef(position).getKey();
+                       Common.CATEGORY_SELECTED = model.getName();
+                       Intent intent = new Intent(getActivity(),ListWallpaper.class);
+                             startActivity(intent);
 
-               }
+                   }
+
+               });
 
 
            }
