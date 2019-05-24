@@ -1,22 +1,11 @@
 package com.example.mobileproject;
 
-import android.app.WallpaperManager;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.firebase.FirebaseApp;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,24 +25,5 @@ public class MainActivity extends AppCompatActivity {
 
         }
     },1000); //sleep
-
-
-
-
-
-
-
-
-
-
-        findViewById(R.id.BT_images_main).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, DisplayImage.class);
-                startActivity(i);
-            }
-        });
-
-
     }
 }
