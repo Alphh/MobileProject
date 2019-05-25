@@ -1,14 +1,14 @@
 package com.example.mobileproject.CategoryModel;
 
-public class CategoryItem
+import io.realm.RealmObject;
+
+public class CategoryItem extends RealmObject
 {
     public String name;
     public String imageLink;
 
     public CategoryItem()
-    {
-
-    }
+    {}
 
     public CategoryItem(String name, String imageLink)
     {
