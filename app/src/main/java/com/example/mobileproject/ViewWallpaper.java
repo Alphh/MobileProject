@@ -67,7 +67,7 @@ public class ViewWallpaper extends AppCompatActivity {
 
 
         rootLayout = (CoordinatorLayout)findViewById(R.id.rootLayout);
-        collapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.collapseing);
+        collapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.collapsing);
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
 

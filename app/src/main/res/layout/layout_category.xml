@@ -20,14 +20,14 @@
 
         <TextView
             android:id="@+id/categoryname"
-            android:background="#494949"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
+            android:background="#494949"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
             android:text="Category Name"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
         
     </RelativeLayout>
 

@@ -37,6 +37,7 @@
         android:layout_marginTop="57dp"
         android:layout_marginEnd="9dp"
         android:layout_marginBottom="191dp"
+        android:fontFamily="@font/roboto"
         android:text="This app is created by the blood, sweat and mostly tears of 3 hardworking students trying to make sure that the app provides all the functionality that was requested by our tutor. Also this is random text because its 1am and I do not know what else to write! Images shown are all free of copyright! "
         android:textSize="22dp" />
 </RelativeLayout>
