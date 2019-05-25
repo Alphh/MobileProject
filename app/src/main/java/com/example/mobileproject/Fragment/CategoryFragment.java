@@ -28,7 +28,8 @@ import com.squareup.picasso.Picasso;
 
 
 import com.example.mobileproject.ListWallpaper;
-public class CategoryFragment extends Fragment {
+public class CategoryFragment extends Fragment
+{
 
     FirebaseDatabase database;
     DatabaseReference categoryBackground;

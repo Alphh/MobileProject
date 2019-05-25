@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/FullScreenTheme">
-        <activity android:name=".UploadWallpaper"></activity>
+        <activity android:name=".AboutUs"></activity>
+        <activity android:name=".UploadWallpaper" />
         <activity android:name=".ViewWallpaper" />
         <activity android:name=".ListWallpaper" />
         <activity

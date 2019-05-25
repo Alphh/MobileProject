@@ -26,7 +26,7 @@ public class HomeActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Wallpaper");
+        toolbar.setTitle("WallpaperApp");
         setSupportActionBar(toolbar);
 
         menu_bottom = (BottomNavigationView) findViewById(R.id.navigation);
@@ -69,8 +69,10 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_aboutus)
+        {
+            startActivity(new Intent(HomeActivity.this,AboutUs.class));
+            return false;
         }
 
         return super.onOptionsItemSelected(item);
