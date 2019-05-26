@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.mobileproject.Common.Common;
 import com.google.firebase.FirebaseApp;
 
+//in this class basically we are sent to the home activity
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -17,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
 
-        //App context for 
+        //App context to get directory
         Common.APPLICATION_CONTEXT = (ContextWrapper) getApplicationContext();
 
 

@@ -24,9 +24,10 @@ public class ViewWallpaper extends AppCompatActivity {
 
     private CoordinatorLayout rootLayout;
 
-    private final Target target = new Target() {
+    private final Target target = new Target()
+    {
         @Override
-        //Images are stored as bitmaps
+
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             WallpaperManager wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
 
@@ -54,13 +55,13 @@ public class ViewWallpaper extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_wallpaper);
-
+        //setting toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
+        //setting collapsingtoolbarLayout
         rootLayout = findViewById(R.id.rootLayout);
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing);
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
@@ -69,14 +70,17 @@ public class ViewWallpaper extends AppCompatActivity {
         collapsingToolbarLayout.setTitle(Common.CATEGORY_SELECTED);
 
         ImageView imageView = findViewById(R.id.imageThumb);
+        //picasso gets the link and sets the image in imageThumb
         Picasso.get()
                 .load(Common.select_background.getImageUrl())
                 .into(imageView);
 
+        //floating action button is the button which sets wallpaper
         FloatingActionButton floatingActionButton = findViewById(R.id.fabWallpaper);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //from picasso we are getting the image and pushing it to target (target is setting is wallpaper)
                 Picasso.get()
                         .load(Common.select_background.getImageUrl())
                         .into(target);
@@ -84,11 +88,11 @@ public class ViewWallpaper extends AppCompatActivity {
             }
         });
     }
-
+    //Close activity when back button is clicked
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home)
-            finish(); //Close activity when back button is clicked
+            finish();
         return super.onOptionsItemSelected(item);
     }
 }
