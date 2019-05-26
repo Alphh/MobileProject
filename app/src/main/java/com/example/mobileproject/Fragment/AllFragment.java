@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mobileproject.CategoryModel.WallpaperItem;
+import com.example.mobileproject.CategoryModel.Wallpaperitem;
 import com.example.mobileproject.Common.Common;
 import com.example.mobileproject.Interface.itemClickListener;
 import com.example.mobileproject.R;
@@ -25,22 +25,32 @@ import com.google.firebase.database.Query;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+
+//All Fragment class is used to represent anything under the 'ALL' tab in the app
+
 public class AllFragment extends Fragment {
+
+    //here we start to initiate variables that we will need, including the db variables
     private static AllFragment INSTANCE = null;
-    private final FirebaseRecyclerAdapter<WallpaperItem, ListWallpaperViewHolder> adapter;
+    //The FirebaseRecyclerAdapter binds a Query to a RecyclerView
+    private final FirebaseRecyclerAdapter<Wallpaperitem, ListWallpaperViewHolder> adapter;
     private RecyclerView recyclerView;
 
-    public AllFragment() {
+    public AllFragment()
+    {
+        // here we initiate the database and call for wallpapers
         Query query = FirebaseDatabase.getInstance().getReference(Common.STR_WALLPAPER);
 
-        FirebaseRecyclerOptions<WallpaperItem> options = new FirebaseRecyclerOptions.Builder<WallpaperItem>()
-                .setQuery(query, WallpaperItem.class)
+        //here we configure the adapter by building recycleroptions
+        FirebaseRecyclerOptions<Wallpaperitem> options = new FirebaseRecyclerOptions.Builder<Wallpaperitem>()
+                .setQuery(query, Wallpaperitem.class)
                 .build();
 
-        adapter = new FirebaseRecyclerAdapter<WallpaperItem, ListWallpaperViewHolder>(options) {
+        adapter = new FirebaseRecyclerAdapter<Wallpaperitem, ListWallpaperViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull final ListWallpaperViewHolder holder, int position, @NonNull final WallpaperItem model) {
+            protected void onBindViewHolder(@NonNull final ListWallpaperViewHolder holder, int position, @NonNull final Wallpaperitem model) {
 
+                //API we use to get image-links and actually turn them into images
                 Picasso.get()
                         .load(model.getImageUrl())
                         .into(holder.wallpaper, new Callback() {
@@ -48,7 +58,7 @@ public class AllFragment extends Fragment {
                             public void onSuccess() {
 
                             }
-
+                                //if there is an error in setting the image the drawable will appear
                             @Override
                             public void onError(Exception e) {
                                 Picasso.get()
@@ -68,6 +78,7 @@ public class AllFragment extends Fragment {
                             }
                         });
 
+                //if the holder is clicked on by the user, the viewwallpaper class is started, and the background image is passed to the viewwallpaper class
                 holder.setItemClickListener(new itemClickListener() {
                     @Override
                     public void onClick(int position) {
@@ -78,7 +89,7 @@ public class AllFragment extends Fragment {
                     }
                 });
             }
-
+//Here we are setting where the item falls withing the recyclerview
             @NonNull
             @Override
             public ListWallpaperViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -91,6 +102,7 @@ public class AllFragment extends Fragment {
 
     }
 
+//this is default code for all fragments
     public static AllFragment getInstance() {
         if (INSTANCE == null)
             INSTANCE = new AllFragment();
@@ -98,24 +110,30 @@ public class AllFragment extends Fragment {
         return INSTANCE;
     }
 
+    //this is where everything starts
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflater gets the layout.xml file and creates view objects
         View view = inflater.inflate(R.layout.activity_list_wallpaper, container, false);
+        //this is where the recyclerview starts and goes to find the recycler_list_wallpaper
         recyclerView = view.findViewById(R.id.recycler_list_wallpaper);
         recyclerView.setHasFixedSize(true);
+        //toolbar is set here
         Toolbar temp = view.findViewById(R.id.toolbar);
         temp.setVisibility(View.GONE);
 
+        //the grid layout is set and allows for 2 images at a time within the grid
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
+        //starting activity
         setWallpaper();
 
         return view;
     }
 
+    //here the activity life cycle starts
     private void setWallpaper() {
         adapter.startListening();
         recyclerView.setAdapter(adapter);
@@ -124,6 +142,7 @@ public class AllFragment extends Fragment {
 
     @Override
     public void onStart() {
+        //start getting the data
         super.onStart();
         if (adapter != null)
             adapter.startListening();
@@ -132,6 +151,7 @@ public class AllFragment extends Fragment {
 
     @Override
     public void onStop() {
+        //if user changes activity for example
         if (adapter != null)
             adapter.stopListening();
         super.onStop();

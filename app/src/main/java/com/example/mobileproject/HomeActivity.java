@@ -21,25 +21,30 @@ import com.example.mobileproject.Adapter.MyFragmentAdapter;
 import com.example.mobileproject.Common.Common;
 import com.google.firebase.FirebaseApp;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity
+{
+    //this is used to check the permission code
     private final int STORAGE_PERMISSION_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //initialize firebase
         FirebaseApp.initializeApp(this);
+        //initialize layout
         setContentView(R.layout.activity_home);
-
+        //creating toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("WallpaperApp");
         setSupportActionBar(toolbar);
 
-
+    //Creating the bottom navigation view (where the upload button is)
         BottomNavigationView menu_bottom = findViewById(R.id.navigation);
         menu_bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 if (menuItem.getItemId() == R.id.action_upload)
+                    //making sure the user has internet before proceeding to the upload activity
                     if (Common.hasInternetConnectivity(getApplication())) {
                         startActivity(new Intent(HomeActivity.this, UploadWallpaper.class));
                     } else {

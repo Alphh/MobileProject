@@ -16,6 +16,8 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
 
     }
 
+    //In this class the appropriate fragment is allowed to be chosen using count as an indicator of where the user is pressing
+
     @Override
     public Fragment getItem(int i) {
 

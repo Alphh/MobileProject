@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mobileproject.CategoryModel.WallpaperItem;
+import com.example.mobileproject.CategoryModel.Wallpaperitem;
 import com.example.mobileproject.Common.Common;
 import com.example.mobileproject.Interface.itemClickListener;
 import com.example.mobileproject.ViewHolder.ListWallpaperViewHolder;
@@ -26,7 +26,7 @@ import com.squareup.picasso.Picasso;
 
 public class ListWallpaper extends AppCompatActivity {
 
-    private FirebaseRecyclerAdapter<WallpaperItem, ListWallpaperViewHolder> adapter;
+    private FirebaseRecyclerAdapter<Wallpaperitem, ListWallpaperViewHolder> adapter;
 
     private RecyclerView recyclerView;
 
@@ -55,13 +55,13 @@ public class ListWallpaper extends AppCompatActivity {
     private void loadBackgroundList() {
         Query query = FirebaseDatabase.getInstance().getReference(Common.STR_WALLPAPER)
                 .orderByChild("categoryID").equalTo(Common.CATEGORY_ID_SELECTED);
-        FirebaseRecyclerOptions<WallpaperItem> options = new FirebaseRecyclerOptions.Builder<WallpaperItem>()
-                .setQuery(query, WallpaperItem.class)
+        FirebaseRecyclerOptions<Wallpaperitem> options = new FirebaseRecyclerOptions.Builder<Wallpaperitem>()
+                .setQuery(query, Wallpaperitem.class)
                 .build();
 
-        adapter = new FirebaseRecyclerAdapter<WallpaperItem, ListWallpaperViewHolder>(options) {
+        adapter = new FirebaseRecyclerAdapter<Wallpaperitem, ListWallpaperViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull final ListWallpaperViewHolder holder, int position, @NonNull final WallpaperItem model) {
+            protected void onBindViewHolder(@NonNull final ListWallpaperViewHolder holder, int position, @NonNull final Wallpaperitem model) {
 
                 Picasso.get()
                         .load(model.getImageUrl())

@@ -6,7 +6,10 @@ public class CategoryItem extends RealmObject {
     private String name;
     private String imageLink;
 
-    public CategoryItem() {
+    //here we are *getting* and *setting* the image URL and the category name which is then used to set the categories as we see them on the screen
+
+    public CategoryItem()
+    {
     }
 
     public CategoryItem(String name, String imageLink) {

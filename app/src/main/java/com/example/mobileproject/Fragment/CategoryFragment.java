@@ -41,16 +41,23 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class CategoryFragment extends Fragment {
+
     private static CategoryFragment INSTANCE = null;
+    //contains details = url & name used by class called WriteImages
     private final ArrayList<String[]> image_details;
+    //contains the bitmap
     private final ArrayList<ImageView> image_array;
+    //these are the results
     private final RealmResults<CategoryItem> result;
+    //setting up firebase & recycler viewer
     private FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder> adapter;
     private RecyclerView.Adapter<CategoryViewHolder> internal_adapter;
     private RecyclerView recyclerView;
+    //this is used for check_internet
     private AlertDialog internetDialog;
 
-    public CategoryFragment() {
+    public CategoryFragment()
+    {
         image_details = new ArrayList<>();
         image_array = new ArrayList<>();
 
@@ -59,6 +66,7 @@ public class CategoryFragment extends Fragment {
         Realm realm = Realm.getDefaultInstance();
         result = realm.where(CategoryItem.class).findAll();
 
+        //If realm has no images stored, check online, if not, get them from local DB
         if (result.size() == 0) {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference categoryBackground = database.getReference(Common.STR_CATEGORY_BACKGROUND);
@@ -67,9 +75,12 @@ public class CategoryFragment extends Fragment {
                     .setQuery(categoryBackground, CategoryItem.class)
                     .build();
 
+
             adapter = new FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder>(options) {
+                //Here we are setting where the item falls withing the recyclerview
                 @Override
                 protected void onBindViewHolder(@NonNull final CategoryViewHolder holder, final int position, @NonNull final CategoryItem model) {
+                    //Picasso is again used to get image links and place them as images
                     Picasso.get()
                             .load(model.getImageLink())
                             .networkPolicy(NetworkPolicy.OFFLINE)
@@ -85,10 +96,10 @@ public class CategoryFragment extends Fragment {
                                     //Try Again online.
                                     Picasso.get()
                                             .load(model.getImageLink())
-                                            .error(R.drawable.ic_explore_black_24dp)
+                                            .error(R.drawable.ic_cloud_upload_black_24dp)
                                             .into(holder.background_image, new Callback() {
 
-
+                                                //if we get a result from the DB(image), we add info in the array and the link is shortened
                                                 @Override
                                                 public void onSuccess() {
                                                     image_details.add(new String[]{model.getName(), model.getImageLink()});
@@ -116,18 +127,20 @@ public class CategoryFragment extends Fragment {
                                 }
                             });
 
+                    //if the holder is clicked, we list all the wallpapers having the same category ID
                     holder.category_name.setText(model.getName());
                     holder.setItemClickListener(new itemClickListener() {
                         @Override
                         public void onClick(int position) {
+                            //passing category
                             Common.CATEGORY_ID_SELECTED = adapter.getRef(position).getKey();
                             Common.CATEGORY_SELECTED = model.getName();
+                            //start intent
                             Intent intent = new Intent(getActivity(), ListWallpaper.class);
                             startActivity(intent);
                         }
                     });
                 }
-
                 @NonNull
                 @Override
                 public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -138,7 +151,9 @@ public class CategoryFragment extends Fragment {
                 }
             };
 
-        } else {
+        }
+        //if we have images stored locally, we load them locally
+        else {
             internal_adapter = new RecyclerView.Adapter<CategoryViewHolder>() {
                 @NonNull
                 @Override
@@ -193,7 +208,7 @@ public class CategoryFragment extends Fragment {
             };
         }
     }
-
+// default for all fragments
     public static CategoryFragment getInstance() {
         if (INSTANCE == null)
             INSTANCE = new CategoryFragment();
@@ -211,12 +226,12 @@ public class CategoryFragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         setCategory();
-
+        //dialog for checking internet
         internetDialog = new AlertDialog.Builder(getActivity()).create();
         checkInternet();
         return view;
     }
-
+    //here the activity life cycle starts
     private void setCategory() {
         if (result.size() > 0) {
             recyclerView.setAdapter(internal_adapter);
@@ -273,6 +288,7 @@ public class CategoryFragment extends Fragment {
         checkInternet();
     }
 
+    //checking if there is internet connection, if not, we pass messages to the user notifiying him of app limitations
     private void checkInternet() {
         if (!Common.hasInternetConnectivity(getActivity())) {
             String message;

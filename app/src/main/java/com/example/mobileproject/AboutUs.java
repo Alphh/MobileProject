@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+
+//if the aboutUs button is clicked a toolbar is created and everything in the activity_about_us is shown. Additionally if the user clicks on the back button in the toolbar, we go back to the menu
 public class AboutUs extends AppCompatActivity {
 
     @Override

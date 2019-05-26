@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.example.mobileproject.Interface.itemClickListener;
 import com.example.mobileproject.R;
 
+
+//this is basically a container holding the category name and images dynamically with a click listener
 public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     public final TextView category_name;
     public final ImageView background_image;

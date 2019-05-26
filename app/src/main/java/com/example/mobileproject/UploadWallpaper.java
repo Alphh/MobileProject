@@ -17,12 +17,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.mobileproject.CategoryModel.CategoryItem;
-import com.example.mobileproject.CategoryModel.WallpaperItem;
+import com.example.mobileproject.CategoryModel.Wallpaperitem;
 import com.example.mobileproject.Common.Common;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -133,6 +134,7 @@ public class UploadWallpaper extends AppCompatActivity {
 
             StorageReference ref = storageReference.child("images/" + UUID.randomUUID().toString());
 
+
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -162,7 +164,7 @@ public class UploadWallpaper extends AppCompatActivity {
         FirebaseDatabase.getInstance()
                 .getReference(Common.STR_WALLPAPER)
                 .push()
-                .setValue(new WallpaperItem(imageLink))
+                .setValue(new Wallpaperitem(imageLink))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
