@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
 
-        //App context for 
+        //App context to get directory
         Common.APPLICATION_CONTEXT = (ContextWrapper) getApplicationContext();
 
 
