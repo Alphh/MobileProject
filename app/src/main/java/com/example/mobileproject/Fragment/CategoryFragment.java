@@ -64,10 +64,10 @@ public class CategoryFragment extends Fragment {
         //Checking local realm
         Realm.init(Common.APPLICATION_CONTEXT);
         Realm realm = Realm.getDefaultInstance();
-        result = realm.where(CategoryItem.class).findAll();
+        result = realm.where(CategoryItem.class).findAll().sort("category_id");
 
         //If realm has no images stored, check online, if not, get them from local DB
-        if (result.size() == 0) {
+        if (result.size() < 4) {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference categoryBackground = database.getReference(Common.STR_CATEGORY_BACKGROUND);
 
@@ -87,7 +87,7 @@ public class CategoryFragment extends Fragment {
                             .into(holder.background_image, new Callback() {
                                 @Override
                                 public void onSuccess() {
-                                    image_details.add(new String[]{model.getName(), model.getImageLink()});
+                                    image_details.add(new String[]{model.getName(), model.getImageLink(), holder.getAdapterPosition() + ""});
                                     image_array.add(holder.background_image);
                                 }
 
@@ -102,7 +102,7 @@ public class CategoryFragment extends Fragment {
                                                 //if we get a result from the DB(image), we add info in the array and the link is shortened
                                                 @Override
                                                 public void onSuccess() {
-                                                    image_details.add(new String[]{model.getName(), model.getImageLink()});
+                                                    image_details.add(new String[]{model.getName(), model.getImageLink(), holder.getAdapterPosition() + ""});
                                                     image_array.add(holder.background_image);
 
                                                     if (image_array.size() == 4) {
@@ -114,7 +114,9 @@ public class CategoryFragment extends Fragment {
                                                             image[1] = new StringBuilder(image[1]).reverse().toString(); //apple-2924531_960_720.jpg
                                                         }
 
-                                                        new WriteImages(image_array, image_details).execute();
+                                                        if (result.size() == 0) {
+                                                            new WriteImages(image_array, image_details).execute();
+                                                        }
                                                     }
                                                 }
 
@@ -152,67 +154,74 @@ public class CategoryFragment extends Fragment {
             };
 
         }
+
         //if we have images stored locally, we load them locally
         else {
-            internal_adapter = new RecyclerView.Adapter<CategoryViewHolder>() {
-                @NonNull
-                @Override
-                public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    View itemView = LayoutInflater.from(viewGroup.getContext())
-                            .inflate(R.layout.layout_category, viewGroup, false);
-
-                    return new CategoryViewHolder(itemView);
-                }
-
-                @Override
-                public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int i) {
-                    try {
-                        String temp = new StringBuilder(result.get(i).getImageLink()).reverse().toString();
-                        String parts[] = temp.split("/");
-                        temp = parts[0];
-                        temp = new StringBuilder(temp).reverse().toString(); //apple-2924531_960_720.jpg
-
-                        //Images are stored as bitmaps
-                        final Bitmap b = BitmapFactory
-                                .decodeStream(new FileInputStream(Common.APPLICATION_CONTEXT.getDir("images", Context.MODE_PRIVATE)
-                                        + "/" + temp));
-
-                        holder.background_image.setImageBitmap(b);
-                        holder.category_name.setText(result.get(i).getName());
-
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-
-                    holder.setItemClickListener(new itemClickListener() {
-                        @Override
-                        public void onClick(int position) {
-                            int number = holder.getAdapterPosition() + 1;
-                            Common.CATEGORY_ID_SELECTED = "0" + number;
-                            Common.CATEGORY_SELECTED = result.get(holder.getAdapterPosition()).getName();
-                            if (Common.hasInternetConnectivity(getActivity())) {
-                                Intent intent = new Intent(getActivity(), ListWallpaper.class);
-                                startActivity(intent);
-                            } else {
-                                Toast.makeText(getActivity(), "No Internet connection.", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
-
-                @Override
-                public int getItemCount() {
-                    return result.size();
-                }
-
-            };
+            setInternalAdapter();
         }
     }
-// default for all fragments
+
+    // default for all fragments
     public static CategoryFragment getInstance() {
         if (INSTANCE == null)
             INSTANCE = new CategoryFragment();
         return INSTANCE;
+    }
+
+    private void setInternalAdapter() {
+        internal_adapter = new RecyclerView.Adapter<CategoryViewHolder>() {
+            @NonNull
+            @Override
+            public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                View itemView = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.layout_category, viewGroup, false);
+
+                return new CategoryViewHolder(itemView);
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int i) {
+                try {
+                    String temp = new StringBuilder(result.get(i).getImageLink()).reverse().toString();
+                    String parts[] = temp.split("/");
+                    temp = parts[0];
+                    temp = new StringBuilder(temp).reverse().toString(); //apple-2924531_960_720.jpg
+
+                    //Images are stored as bitmaps
+                    final Bitmap b = BitmapFactory
+                            .decodeStream(new FileInputStream(Common.APPLICATION_CONTEXT.getDir("images", Context.MODE_PRIVATE)
+                                    + "/" + temp));
+
+                    holder.background_image.setImageBitmap(b);
+                    holder.category_name.setText(result.get(i).getName());
+
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                holder.setItemClickListener(new itemClickListener() {
+                    @Override
+                    public void onClick(int position) {
+                        int number = holder.getAdapterPosition() + 1;
+                        Common.CATEGORY_ID_SELECTED = "0" + number;
+                        Common.CATEGORY_SELECTED = result.get(holder.getAdapterPosition()).getName();
+                        if (Common.hasInternetConnectivity(getActivity())) {
+                            Intent intent = new Intent(getActivity(), ListWallpaper.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getActivity(), "No Internet connection.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public int getItemCount() {
+                return result.size();
+            }
+
+        };
     }
 
     @Override
@@ -225,6 +234,24 @@ public class CategoryFragment extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
+        internal_adapter = new RecyclerView.Adapter<CategoryViewHolder>() {
+            @NonNull
+            @Override
+            public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                return null;
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull CategoryViewHolder categoryViewHolder, int i) {
+
+            }
+
+            @Override
+            public int getItemCount() {
+                return 0;
+            }
+        };
+
         setCategory();
         //dialog for checking internet
         internetDialog = new AlertDialog.Builder(getActivity()).create();
@@ -233,8 +260,13 @@ public class CategoryFragment extends Fragment {
     }
     //here the activity life cycle starts
     private void setCategory() {
-        if (result.size() > 0) {
-            recyclerView.setAdapter(internal_adapter);
+        if (result.size() == 4) {
+            if (internal_adapter.getItemCount() < 4) {
+                setInternalAdapter();
+                recyclerView.setAdapter(internal_adapter);
+            } else {
+                recyclerView.setAdapter(internal_adapter);
+            }
         } else {
             adapter.startListening();
             recyclerView.setAdapter(adapter);
@@ -244,15 +276,10 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
-        if (adapter != null)
-            adapter.startListening();
-
-        if (result.size() > 0 || !Common.hasInternetConnectivity(getActivity())) {
+        if (!Common.hasInternetConnectivity(getActivity())) {
             recyclerView.setAdapter(internal_adapter);
         } else {
-            adapter.startListening();
-            recyclerView.setAdapter(adapter);
+            setCategory();
         }
 
         checkInternet();
@@ -261,28 +288,18 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onStop() {
         if (adapter != null)
-            adapter.startListening();
+            adapter.stopListening();
 
-        if (result.size() > 0 || !Common.hasInternetConnectivity(getActivity())) {
-            recyclerView.setAdapter(internal_adapter);
-        } else {
-            adapter.startListening();
-            recyclerView.setAdapter(adapter);
-        }
         super.onStop();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (adapter != null)
-            adapter.startListening();
-
-        if (result.size() > 0 || !Common.hasInternetConnectivity(getActivity())) {
+        if (!Common.hasInternetConnectivity(getActivity())) {
             recyclerView.setAdapter(internal_adapter);
         } else {
-            adapter.startListening();
-            recyclerView.setAdapter(adapter);
+            setCategory();
         }
 
         checkInternet();
