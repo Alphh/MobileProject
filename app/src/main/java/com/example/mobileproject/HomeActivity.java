@@ -15,50 +15,41 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.mobileproject.Adapter.MyFragmentAdapter;
+import com.example.mobileproject.Common.Common;
 import com.google.firebase.FirebaseApp;
 
 public class HomeActivity extends AppCompatActivity {
     private final int STORAGE_PERMISSION_CODE = 1;
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
 
-    private BottomNavigationView menu_bottom;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("WallpaperApp");
         setSupportActionBar(toolbar);
 
-        menu_bottom = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView menu_bottom = findViewById(R.id.navigation);
         menu_bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                if(menuItem.getItemId() == R.id.action_upload)
-                    startActivity(new Intent(HomeActivity.this,UploadWallpaper.class));
+                if (menuItem.getItemId() == R.id.action_upload)
+                    if (Common.hasInternetConnectivity(getApplication())) {
+                        startActivity(new Intent(HomeActivity.this, UploadWallpaper.class));
+                    } else {
+                        Toast.makeText(getApplication(), "No internet connection!", Toast.LENGTH_SHORT).show();
+                    }
                 return false;
             }
         });
 
 
-
-        viewPager = (ViewPager)findViewById(R.id.viewPager);
-        MyFragmentAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(), this);
-        viewPager.setAdapter(adapter);
-
-        tabLayout = (TabLayout)findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(viewPager);
-
         requestStoragePermission();
-    }
-
-    @Override
-    public void onBackPressed() {
-            super.onBackPressed();
     }
 
     @Override
@@ -76,9 +67,8 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_aboutus)
-        {
-            startActivity(new Intent(HomeActivity.this,AboutUs.class));
+        if (id == R.id.action_aboutus) {
+            startActivity(new Intent(HomeActivity.this, AboutUs.class));
             return false;
         }
 
@@ -114,7 +104,12 @@ public class HomeActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == STORAGE_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                ViewPager viewPager = findViewById(R.id.viewPager);
+                MyFragmentAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager());
+                viewPager.setAdapter(adapter);
 
+                TabLayout tabLayout = findViewById(R.id.tabLayout);
+                tabLayout.setupWithViewPager(viewPager);
             } else {
                 HomeActivity.this.finish();
             }

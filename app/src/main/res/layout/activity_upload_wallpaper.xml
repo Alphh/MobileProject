@@ -54,7 +54,7 @@
 <Button
     android:id="@+id/btn_browser"
     android:layout_width="0dp"
-    android:text="Browse"
+    android:text="@string/browse"
     style="@style/Widget.AppCompat.Button.Colored"
     android:layout_weight="1"
     android:layout_height="wrap_content" />
@@ -63,7 +63,7 @@
                 android:id="@+id/btn_upload"
                 android:layout_width="0dp"
                 android:enabled="false"
-                android:text="Upload"
+                android:text="@string/upload"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_weight="1"
                 android:layout_height="wrap_content" />

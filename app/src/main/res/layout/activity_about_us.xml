@@ -26,7 +26,6 @@
     </android.support.design.widget.AppBarLayout>
 
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="386dp"
         android:layout_height="355dp"
         android:layout_below="@+id/app_bar"
@@ -38,7 +37,7 @@
         android:layout_marginEnd="9dp"
         android:layout_marginBottom="191dp"
         android:fontFamily="@font/roboto"
-        android:text="This app is created by the blood, sweat and mostly tears of 3 hardworking students trying to make sure that the app provides all the functionality that was requested by our tutor. Also this is random text because its 1am and I do not know what else to write! Images shown are all free of copyright! "
-        android:textSize="22dp" />
+        android:text="@string/this_app_is_created_by_the_blood_sweat_and_mostly_tears_of_3_hardworking_students_trying_to_make_sure_that_the_app_provides_all_the_functionality_that_was_requested_by_our_tutor_also_this_is_random_text_because_its_1am_and_i_do_not_know_what_else_to_write_images_shown_are_all_free_of_copyright"
+        android:textSize="22sp" />
 </RelativeLayout>
 

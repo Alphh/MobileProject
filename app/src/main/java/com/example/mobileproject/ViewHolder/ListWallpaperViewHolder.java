@@ -10,31 +10,23 @@ import com.example.mobileproject.R;
 
 public class ListWallpaperViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public Object setItemClickListener;
-    itemClickListener itemClickListener;
-
-    public ImageView wallpaper;
+    public final ImageView wallpaper;
+    private itemClickListener itemClickListener;
 
 
     public ListWallpaperViewHolder(@NonNull View itemView) {
         super(itemView);
-        wallpaper = (ImageView)itemView.findViewById(R.id.categoryimage);
+        wallpaper = itemView.findViewById(R.id.categoryimage);
         itemView.setOnClickListener(this);
     }
 
     @Override
-    public void onClick(View v)
-
-    {
-        itemClickListener.onClick(v,getAdapterPosition());
+    public void onClick(View v) {
+        itemClickListener.onClick(getAdapterPosition());
 
     }
 
     public void setItemClickListener(com.example.mobileproject.Interface.itemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
-    }
-
-    public com.example.mobileproject.Interface.itemClickListener getItemClickListener() {
-        return itemClickListener;
     }
 }

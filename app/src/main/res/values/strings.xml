@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">MobileProject</string>
     <string name="title_activity_home">HomeActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="this_app_is_created_by_the_blood_sweat_and_mostly_tears_of_3_hardworking_students_trying_to_make_sure_that_the_app_provides_all_the_functionality_that_was_requested_by_our_tutor_also_this_is_random_text_because_its_1am_and_i_do_not_know_what_else_to_write_images_shown_are_all_free_of_copyright">This app is created by the blood, sweat and mostly tears of 3 hardworking students trying to make sure that the app provides all the functionality that was requested by our tutor. Also this is random text because its 1am and I do not know what else to write! Images shown are all free of copyright!</string>
+    <string name="browse">Browse</string>
+    <string name="upload">Upload</string>
+    <string name="wallpaper_display">Wallpaper Display</string>
+    <string name="to_set_this_image_as_your_wallpaper_click_on_the_blue_icon">To set this image as your wallpaper, click on the blue icon!</string>
+    <string name="about_us">About Us</string>
+    <string name="category_name">Category Name</string>
 </resources>

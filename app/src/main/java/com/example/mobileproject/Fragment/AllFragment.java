@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mobileproject.CategoryModel.Wallpaperitem;
+import com.example.mobileproject.CategoryModel.WallpaperItem;
 import com.example.mobileproject.Common.Common;
 import com.example.mobileproject.Interface.itemClickListener;
 import com.example.mobileproject.R;
@@ -26,27 +26,20 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public class AllFragment extends Fragment {
-    FirebaseDatabase database;
-    Query query;
-
-    FirebaseRecyclerOptions<Wallpaperitem> options;
-    FirebaseRecyclerAdapter<Wallpaperitem, ListWallpaperViewHolder> adapter;
-
-    RecyclerView recyclerView;
-
-    private static AllFragment INSTANCE=null;
+    private static AllFragment INSTANCE = null;
+    private final FirebaseRecyclerAdapter<WallpaperItem, ListWallpaperViewHolder> adapter;
+    private RecyclerView recyclerView;
 
     public AllFragment() {
-        database = FirebaseDatabase.getInstance();
-        query = FirebaseDatabase.getInstance().getReference(Common.STR_WALLPAPER);
+        Query query = FirebaseDatabase.getInstance().getReference(Common.STR_WALLPAPER);
 
-        options = new FirebaseRecyclerOptions.Builder<Wallpaperitem>()
-                .setQuery(query, Wallpaperitem.class)
+        FirebaseRecyclerOptions<WallpaperItem> options = new FirebaseRecyclerOptions.Builder<WallpaperItem>()
+                .setQuery(query, WallpaperItem.class)
                 .build();
 
-        adapter = new FirebaseRecyclerAdapter<Wallpaperitem, ListWallpaperViewHolder>(options) {
+        adapter = new FirebaseRecyclerAdapter<WallpaperItem, ListWallpaperViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull final ListWallpaperViewHolder holder, int position, @NonNull final Wallpaperitem model) {
+            protected void onBindViewHolder(@NonNull final ListWallpaperViewHolder holder, int position, @NonNull final WallpaperItem model) {
 
                 Picasso.get()
                         .load(model.getImageUrl())
@@ -77,7 +70,7 @@ public class AllFragment extends Fragment {
 
                 holder.setItemClickListener(new itemClickListener() {
                     @Override
-                    public void onClick(View view, int position) {
+                    public void onClick(int position) {
                         Intent intent = new Intent(getActivity(), ViewWallpaper.class);
                         Common.select_background = model;
                         startActivity(intent);
@@ -100,16 +93,9 @@ public class AllFragment extends Fragment {
     }
 
     public static AllFragment getInstance() {
-        if(INSTANCE == null)
+        if (INSTANCE == null)
             INSTANCE = new AllFragment();
         return INSTANCE;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -117,7 +103,7 @@ public class AllFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_list_wallpaper, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_list_wallpaper);
+        recyclerView = view.findViewById(R.id.recycler_list_wallpaper);
         recyclerView.setHasFixedSize(true);
         Toolbar temp = view.findViewById(R.id.toolbar);
         temp.setVisibility(View.GONE);

@@ -1,6 +1,5 @@
 package com.example.mobileproject.Adapter;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,12 +10,9 @@ import com.example.mobileproject.Fragment.CategoryFragment;
 
 public class MyFragmentAdapter extends FragmentPagerAdapter {
 
-    private Context context;
-
-    public MyFragmentAdapter(FragmentManager fm, Context context) {
+    public MyFragmentAdapter(FragmentManager fm) {
 
         super(fm);
-        this.context = context;
 
     }
 
@@ -27,7 +23,7 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
         if (i == 0)
             return CategoryFragment.getInstance();
 
-        else if(i == 1)
+        else if (i == 1)
 
             return AllFragment.getInstance();
 
@@ -45,9 +41,7 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position)
-
-        {
+        switch (position) {
             case 0:
                 return "Category";
 
