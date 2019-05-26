@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.mobileproject.Common.Common;
 import com.google.firebase.FirebaseApp;
 
+//in this class basically we are sent to the home activity
+
 public class MainActivity extends AppCompatActivity {
 
 

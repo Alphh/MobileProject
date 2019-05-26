@@ -43,7 +43,7 @@ import java.util.UUID;
 
 public class UploadWallpaper extends AppCompatActivity {
 
-    //Material Spinner Data
+    //Spinners provide a quick way to select one value from a set
     private final Map<String, String> spinnerData = new HashMap<>();
     private ImageView image_preview;
     private Button btn_upload;
@@ -51,6 +51,7 @@ public class UploadWallpaper extends AppCompatActivity {
     private String categoryIdSelect = "";
     private StorageReference storageReference;
     private Uri filePath;
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -74,7 +75,9 @@ public class UploadWallpaper extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //getting layout
         setContentView(R.layout.activity_upload_wallpaper);
+        //setting toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Upload Wallpaper");
         setSupportActionBar(toolbar);
@@ -102,7 +105,7 @@ public class UploadWallpaper extends AppCompatActivity {
                 chooseImage();
             }
 
-
+            //here we are choosing an image
             private void chooseImage() {
                 Intent intent = new Intent();
                 intent.setType("image/*");
@@ -111,6 +114,7 @@ public class UploadWallpaper extends AppCompatActivity {
             }
         });
 
+        //button upload is hidden if no image is chosen. If image is chosen the button shows. Additionally if no category is selected, it will not upload
         btn_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,15 +130,16 @@ public class UploadWallpaper extends AppCompatActivity {
         });
     }
 
+    // Shows 'Uploading...' when the process of uploading has started and starts to upload the image. Once uploaded, message is shown
     private void upload() {
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading..");
             progressDialog.show();
-
+                //Storage reference is used for the DB as a referenece. UUID.randomUUID is used to generate a random unique ID
             StorageReference ref = storageReference.child("images/" + UUID.randomUUID().toString());
 
-
+                //here the image is uploaded and the category is set along with the storage path
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -174,6 +179,7 @@ public class UploadWallpaper extends AppCompatActivity {
                 });
     }
 
+    //here we are loading the categories for the spinner to show
     private void loadCategoryToSpinner() {
         FirebaseDatabase.getInstance()
                 .getReference(Common.STR_CATEGORY_BACKGROUND)
@@ -187,7 +193,6 @@ public class UploadWallpaper extends AppCompatActivity {
                             spinnerData.put(key, item.getName());
                         }
 
-                        //Since material spinner does not receive hint, we will need to manually do it
                         Object[] valueArray = spinnerData.values().toArray();
                         List<Object> valueList = new ArrayList<>();
                         valueList.add(0, "Category");
@@ -216,10 +221,11 @@ public class UploadWallpaper extends AppCompatActivity {
                 });
     }
 
+    //Close activity when back button is clicked
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home)
-            finish(); //Close activity when back button is clicked
+            finish();
         return super.onOptionsItemSelected(item);
     }
 }
