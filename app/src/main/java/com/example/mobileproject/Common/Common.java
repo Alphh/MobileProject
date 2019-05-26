@@ -20,6 +20,6 @@ public class Common {
     public static boolean hasInternetConnectivity(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return (activeNetwork != null && activeNetwork.isConnected());
+        return activeNetwork != null && activeNetwork.isConnected();
     }
 }

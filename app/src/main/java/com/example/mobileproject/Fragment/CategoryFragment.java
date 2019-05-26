@@ -1,12 +1,14 @@
 package com.example.mobileproject.Fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -46,6 +48,7 @@ public class CategoryFragment extends Fragment {
     private FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder> adapter;
     private RecyclerView.Adapter<CategoryViewHolder> internal_adapter;
     private RecyclerView recyclerView;
+    private AlertDialog internetDialog;
 
     public CategoryFragment() {
         image_details = new ArrayList<>();
@@ -208,6 +211,9 @@ public class CategoryFragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         setCategory();
+
+        internetDialog = new AlertDialog.Builder(getActivity()).create();
+        checkInternet();
         return view;
     }
 
@@ -225,6 +231,11 @@ public class CategoryFragment extends Fragment {
         super.onStart();
         if (adapter != null)
             adapter.startListening();
+        if (result.size() > 0 || !Common.hasInternetConnectivity(getActivity())) {
+            recyclerView.setAdapter(internal_adapter);
+        }
+
+        checkInternet();
     }
 
     @Override
@@ -232,6 +243,9 @@ public class CategoryFragment extends Fragment {
         if (adapter != null)
             adapter.stopListening();
         super.onStop();
+        if (result.size() > 0 || !Common.hasInternetConnectivity(getActivity())) {
+            recyclerView.setAdapter(internal_adapter);
+        }
     }
 
     @Override
@@ -240,8 +254,46 @@ public class CategoryFragment extends Fragment {
         if (adapter != null)
             adapter.startListening();
 
-        if (!Common.hasInternetConnectivity(getActivity())) {
+        if (result.size() > 0 || !Common.hasInternetConnectivity(getActivity())) {
             recyclerView.setAdapter(internal_adapter);
+        }
+
+        checkInternet();
+    }
+
+    private void checkInternet() {
+        if (!Common.hasInternetConnectivity(getActivity())) {
+            String message = "";
+
+            if (!internetDialog.isShowing()) {
+                if (result.size() == 0) {
+                    message = "Internet Access is required when opening this app for the first time";
+
+                    internetDialog = new AlertDialog.Builder(getActivity()).setTitle("No Internet Access").setMessage(message)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    getActivity().finish();
+                                }
+                            }).create();
+
+                    internetDialog.show();
+
+                } else {
+                    message = "App functionality will be limited.";
+
+                    internetDialog = new AlertDialog.Builder(getActivity()).setTitle("No Internet Access").setMessage(message)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (Common.hasInternetConnectivity(getActivity())) {
+                                        dialog.dismiss();
+                                    }
+                                }
+                            }).create();
+                    internetDialog.show();
+                }
+            }
         }
     }
 }

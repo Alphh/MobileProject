@@ -34,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
         toolbar.setTitle("WallpaperApp");
         setSupportActionBar(toolbar);
 
+
         BottomNavigationView menu_bottom = findViewById(R.id.navigation);
         menu_bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

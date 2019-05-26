@@ -138,7 +138,7 @@ public class UploadWallpaper extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
-                            saveUrlCategory(categoryIdSelect, taskSnapshot.getStorage().toString());
+                            saveUrlCategory(taskSnapshot.getStorage().toString());
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -158,7 +158,7 @@ public class UploadWallpaper extends AppCompatActivity {
         }
     }
 
-    private void saveUrlCategory(String categoryIdSelect, String imageLink) {
+    private void saveUrlCategory(String imageLink) {
         FirebaseDatabase.getInstance()
                 .getReference(Common.STR_WALLPAPER)
                 .push()
