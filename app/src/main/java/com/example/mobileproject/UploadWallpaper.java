@@ -23,7 +23,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -108,20 +107,6 @@ public class UploadWallpaper extends AppCompatActivity {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), Common.PICK_IMAGE_REQUEST);
-            }
-        });
-
-        btn_upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!Common.hasInternetConnectivity(getApplication())) {
-                    Toast.makeText(UploadWallpaper.this, "No internet connection!", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (spinner.getSelectedIndex() == 0) //hint not chosen
-                        Toast.makeText(UploadWallpaper.this, "Please choose a category", Toast.LENGTH_SHORT).show();
-                    else
-                        upload();
-                }
             }
         });
     }
