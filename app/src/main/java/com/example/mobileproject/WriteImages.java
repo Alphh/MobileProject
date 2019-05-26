@@ -80,6 +80,7 @@ public class WriteImages extends AsyncTask {
                         CategoryItem img = realm.createObject(CategoryItem.class);
                         img.setName(WriteImages.this.image_details.get(index)[0]);
                         img.setImageLink(finalImage_name);
+                        img.setCategoryId(WriteImages.this.image_details.get(index)[2]);
 
                         realm.commitTransaction();
                     }
