@@ -150,7 +150,7 @@ public class CategoryFragment extends Fragment {
                 }
 
                 @Override
-                public void onBindViewHolder(@NonNull CategoryViewHolder holder, final int i) {
+                public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int i) {
                     try {
                         String temp = new StringBuilder(result.get(i).getImageLink()).reverse().toString();
                         String parts[] = temp.split("/");
@@ -172,9 +172,9 @@ public class CategoryFragment extends Fragment {
                     holder.setItemClickListener(new itemClickListener() {
                         @Override
                         public void onClick(int position) {
-                            int number = i + 1;
+                            int number = holder.getAdapterPosition() + 1;
                             Common.CATEGORY_ID_SELECTED = "0" + number;
-                            Common.CATEGORY_SELECTED = result.get(i).getName();
+                            Common.CATEGORY_SELECTED = result.get(holder.getAdapterPosition()).getName();
                             if (Common.hasInternetConnectivity(getActivity())) {
                                 Intent intent = new Intent(getActivity(), ListWallpaper.class);
                                 startActivity(intent);
@@ -229,10 +229,15 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
         if (adapter != null)
             adapter.startListening();
+
         if (result.size() > 0 || !Common.hasInternetConnectivity(getActivity())) {
             recyclerView.setAdapter(internal_adapter);
+        } else {
+            adapter.startListening();
+            recyclerView.setAdapter(adapter);
         }
 
         checkInternet();
@@ -241,11 +246,15 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onStop() {
         if (adapter != null)
-            adapter.stopListening();
-        super.onStop();
+            adapter.startListening();
+
         if (result.size() > 0 || !Common.hasInternetConnectivity(getActivity())) {
             recyclerView.setAdapter(internal_adapter);
+        } else {
+            adapter.startListening();
+            recyclerView.setAdapter(adapter);
         }
+        super.onStop();
     }
 
     @Override
@@ -256,6 +265,9 @@ public class CategoryFragment extends Fragment {
 
         if (result.size() > 0 || !Common.hasInternetConnectivity(getActivity())) {
             recyclerView.setAdapter(internal_adapter);
+        } else {
+            adapter.startListening();
+            recyclerView.setAdapter(adapter);
         }
 
         checkInternet();
@@ -263,7 +275,7 @@ public class CategoryFragment extends Fragment {
 
     private void checkInternet() {
         if (!Common.hasInternetConnectivity(getActivity())) {
-            String message = "";
+            String message;
 
             if (!internetDialog.isShowing()) {
                 if (result.size() == 0) {

@@ -20,7 +20,7 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.design.widget.TabLayout>
+            android:layout_height="wrap_content" />
 
 
         <android.support.v4.view.ViewPager
@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/navigation"
-            android:layout_below="@+id/tabLayout"></android.support.v4.view.ViewPager>
+            android:layout_below="@+id/tabLayout" />
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
@@ -38,7 +38,7 @@
             android:background="@color/colorPrimary"
             app:itemIconTint="@android:color/background_dark"
             app:itemTextColor="@android:color/background_dark"
-            app:menu="@menu/bottom_navigation_menu"></android.support.design.widget.BottomNavigationView>
+            app:menu="@menu/bottom_navigation_menu" />
 
 
     </RelativeLayout>
