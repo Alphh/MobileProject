@@ -26,6 +26,7 @@ public class ViewWallpaper extends AppCompatActivity {
 
     private final Target target = new Target() {
         @Override
+        //Images are stored as bitmaps
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             WallpaperManager wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
 

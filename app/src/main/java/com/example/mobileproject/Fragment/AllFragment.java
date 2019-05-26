@@ -85,7 +85,6 @@ public class AllFragment extends Fragment {
                 View itemView = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.layout_wallpaper_item, viewGroup, false);
 
-
                 return new ListWallpaperViewHolder(itemView);
             }
         };
@@ -95,6 +94,7 @@ public class AllFragment extends Fragment {
     public static AllFragment getInstance() {
         if (INSTANCE == null)
             INSTANCE = new AllFragment();
+
         return INSTANCE;
     }
 
@@ -119,6 +119,7 @@ public class AllFragment extends Fragment {
     private void setWallpaper() {
         adapter.startListening();
         recyclerView.setAdapter(adapter);
+
     }
 
     @Override
@@ -142,6 +143,5 @@ public class AllFragment extends Fragment {
 
         if (adapter != null)
             adapter.startListening();
-
     }
 }
