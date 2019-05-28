@@ -128,18 +128,18 @@ public class AllFragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         //starting activity
-        setWallpaper();
+        startLoadingImages();
 
         return view;
     }
 
     //here the activity life cycle starts
-    private void setWallpaper() {
-        adapter.startListening();
+    private void startLoadingImages() { //loading images
+        adapter.startListening(); //start listening to the firebase result
         recyclerView.setAdapter(adapter);
 
     }
-
+    //adapter is the result of firebase
     @Override
     public void onStart() {
         //start getting the data
